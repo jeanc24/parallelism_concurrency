@@ -47,7 +47,7 @@ public class ParallelMatrixSearch {
         // System.out.println("Tiempo búsqueda paralela: " + (endTime - startTime) + "ms");
     }
 
-    private static boolean sequentialSearch() {
+    private static void sequentialSearch() {
         //...
     }
 
