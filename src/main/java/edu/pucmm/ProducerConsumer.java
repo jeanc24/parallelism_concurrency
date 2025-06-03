@@ -5,7 +5,7 @@ import java.util.concurrent.BlockingQueue;
 
 /**
  * @author me@fredpena.dev
- * @created 06/06/2024  - 08:46
+ * @created 02/06/2025  - 20:46
  */
 public class ProducerConsumer {
     private static final int QUEUE_CAPACITY = 10;
@@ -16,21 +16,22 @@ public class ProducerConsumer {
     public static void main(String[] args) {
         BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(QUEUE_CAPACITY);
 
+        // Sugerencia: Usar ExecutorService o crear threads manualmente para iniciar Productores y Consumidores
     }
 
     static class Producer implements Runnable {
-
         @Override
         public void run() {
-
+            // Generar PRODUCE_COUNT números aleatorios y colocarlos en la cola
+            // Sugerencia: usar Thread.sleep(10) para simular tiempo de producción
         }
     }
 
     static class Consumer implements Runnable {
-
         @Override
         public void run() {
-
+            // Extraer elementos de la cola y procesarlos (ej: sumarlos)
+            // Sugerencia: llevar la suma total por hilo y reportar al final
         }
     }
 }

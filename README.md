@@ -1,32 +1,44 @@
 # Primer Parcial - ICC-303 - Programación Paralela y Concurrente
 
+1. **Fecha de Entrega:** A completar en el tiempo designado durante el examen.
+2. **Lenguaje de Programación:** Java 17 o superior
+3. **Formato de Entrega:** Hacer un **fork** de este repositorio, trabajar en su propio fork y subir el código con las
+   soluciones a GitHub.
+
 ## Instrucciones Generales
 
-1. **Fecha de Entrega:** A completar en el tiempo designado durante el examen.
-2. **Lenguaje de Programación:** Java
-3. **Formato de Entrega:** Hacer un fork de este repositorio, trabajar en su propio fork y subir el código con las
-   soluciones a GitHub.
-4. **Código Original:** El código debe ser 100% de producción original. No se permite copiar ni generar código de otras
-   fuentes.
+- El código debe ser de **producción original** del estudiante.
+- **No se permite** copiar código de otras fuentes, sitios web o compañeros.
+- Asegurarse de que el código compile y ejecute correctamente.
+- El proyecto debe estar correctamente estructurado y documentado.
 
-## Problema 1: Paralelización de Búsqueda en una Matriz
+## Problema 1: Búsqueda Paralela en una Matriz
 
 ### Descripción
 
-Se pide implementar un programa en Java que busque un número específico en una matriz grande utilizando una arquitectura
-de memoria compartida. El programa debe dividir la matriz entre varios hilos, cada uno de los cuales buscará el número
-en su porción asignada.
+Implementar un programa que busque un número objetivo en una matriz grande utilizando **paralelismo con memoria
+compartida**.
 
 ### Requerimientos
 
-1. Implementar un programa que divida una matriz en partes iguales entre varios hilos.
-2. Cada hilo debe buscar el número en su parte de la matriz.
-3. Utilizar mecanismos de sincronización para informar si el número ha sido encontrado y detener la búsqueda si se
-   encuentra.
-4. Medir el tiempo de ejecución de la búsqueda paralela y compararlo con la ejecución secuencial.
+- Crear una matriz cuadrada de `1000 x 1000` y llenarla con valores aleatorios.
+- Implementar la búsqueda secuencial y medir el tiempo.
+- Dividir la matriz entre varios hilos (por filas o bloques).
+- Cada hilo busca el número objetivo en su segmento.
+- Detener todos los hilos en cuanto uno encuentre el valor (sin seguir buscando innecesariamente).
+- Medir y comparar el tiempo de ejecución con la versión secuencial.
+
+### Sugerencias
+
+- Usa `AtomicBoolean` para indicar si ya se encontró el valor.
+- Utiliza `System.nanoTime()` para medir los tiempos de ejecución.
+-
+
+### Archivos sugeridos
 
 ```java
 public class ParallelMatrixSearch {
+
     private static final int MATRIX_SIZE = 1000;
     private static final int THREAD_COUNT = 4;
     private static final int[][] matrix = new int[MATRIX_SIZE][MATRIX_SIZE];
@@ -34,43 +46,57 @@ public class ParallelMatrixSearch {
 
     public static void main(String[] args) {
         // Inicializar la matriz con valores aleatorios
-        //...
+        // fillMatrixRandom();
 
         // Medir el tiempo de ejecución de la búsqueda secuencial
-        //...
-        // System.out.println("Resultado búsqueda secuencial: " + ...);
-        // System.out.println("Tiempo búsqueda secuencial: " + (endTime - startTime) + "ms");
+        // long startTime = System.nanoTime();
+        // sequentialSearch();
+        // long endTime = System.nanoTime();
+        // System.out.println("Tiempo búsqueda secuencial: " + ((endTime - startTime) / 1_000_000) + "ms");
 
         // Medir el tiempo de ejecución de la búsqueda paralela
-        //...
-        // System.out.println("Resultado búsqueda paralela: " + ...);
-        // System.out.println("Tiempo búsqueda paralela: " + (endTime - startTime) + "ms");
+        // startTime = System.nanoTime();
+        // parallelSearch();
+        // endTime = System.nanoTime();
+        // System.out.println("Tiempo búsqueda paralela: " + ((endTime - startTime) / 1_000_000) + "ms");
     }
 
     private static void sequentialSearch() {
-        //...
+        // Implementar búsqueda secuencial
     }
 
     private static void parallelSearch() {
-        //...
+        // Implementar búsqueda paralela
+        // Sugerencia: usar AtomicBoolean para indicar si ya se encontró el número y detener hilos
+    }
+
+    private static void fillMatrixRandom() {
+        Random rand = new Random();
+        for (int i = 0; i < MATRIX_SIZE; i++) {
+            for (int j = 0; j < MATRIX_SIZE; j++) {
+                matrix[i][j] = rand.nextInt(1000); // Rango arbitrario
+            }
+        }
     }
 }
 ```
 
-## Problema 2: Implementación de un Algoritmo Concurrente de Productor-Consumidor
+## Problema 2: Productor - Consumidor Concurrente
 
 ### Descripción
 
-Se pide implementar el clásico problema del productor-consumidor utilizando colas bloqueantes en Java. Los productores
-generarán números aleatorios y los pondrán en una cola, mientras que los consumidores los tomarán de la cola y los
-procesarán.
+Implementar el patrón clásico de **Productor-Consumidor** usando una `BlockingQueue` en Java.
 
 ### Requerimientos
 
-1. Implementar una clase de productor que genere números y los ponga en una cola.
-2. Implementar una clase de consumidor que tome números de la cola y los procese (por ejemplo, sumarlos).
-3. Utilizar una cola bloqueante para sincronizar la producción y el consumo.
-4. Medir el rendimiento del sistema con múltiples productores y consumidores.
+- Crear una cola bloqueante con capacidad limitada (`ArrayBlockingQueue`).
+- Implementar `n` productores que generen números aleatorios y los coloquen en la cola.
+- Implementar `n` consumidores que extraigan y procesen los números de la cola (ej. sumarlos).
+- Ejecutar el sistema con múltiples productores y consumidores simultáneos.
+- Medir el tiempo total de procesamiento.
+- Mostrar cuántos elementos consumió cada hilo consumidor.
+
+### Archivos sugeridos
 
 ```java
 public class ProducerConsumer {
@@ -81,38 +107,62 @@ public class ProducerConsumer {
 
     public static void main(String[] args) {
         BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(QUEUE_CAPACITY);
-
+        // Sugerencia: Usar ExecutorService o crear threads manualmente para iniciar Productores y Consumidores
     }
 
     static class Producer implements Runnable {
-
         @Override
         public void run() {
-
+            // Generar PRODUCE_COUNT números aleatorios y colocarlos en la cola
+            // Sugerencia: usar Thread.sleep(10) para simular tiempo de producción
         }
     }
 
     static class Consumer implements Runnable {
-
         @Override
         public void run() {
-
+            // Extraer elementos de la cola y procesarlos (ej: sumarlos)
+            // Sugerencia: llevar la suma total por hilo y reportar al final
         }
     }
 }
 
 ```
 
-### Instrucciones
+## Recomendaciones
 
-1. Hacer un fork de este repositorio en GitHub.
-2. Importa el proyecto en tu IDE favorito.
-3. Trabajar en su propio fork y resolver los problemas en los archivos indicados.
-4. Asegurarse de que el código funcione correctamente y cumpla con los requisitos.
-5. Subir el código al repositorio y hacer un pull request antes de la fecha límite.
+- Utiliza `ExecutorService` o lanza hilos manualmente.
+- Documenta tu código con comentarios claros.
+- Si se desea medir carga por consumidor, puede usarse un `ConcurrentHashMap<Thread, Integer>`.
 
-### ¡Buena suerte y feliz codificación!
+## Criterios de Evaluación
 
-Este archivo `readme.md` proporciona una guía clara y detallada para que los estudiantes comprendan y completen los
-problemas del examen. El código proporcionado incluye comentarios básicos para ayudar a guiar a los estudiantes en su
-implementación.
+| Criterio                                    | P1 | P2 |
+|---------------------------------------------|----|----|
+| Implementación funcional                    | 20 | 20 |
+| Uso correcto de hilos/colas                 | 20 | 20 |
+| Sincronización eficiente                    | 20 | 20 |
+| Medición y análisis de tiempos              | 10 | 10 |
+| Claridad, estilo y documentación del código | 20 | 20 |
+| Estructura del proyecto y uso de GitHub     | 10 | 10 |
+| **Total**                                   
+
+## Buenas prácticas
+
+- Evita bloqueos innecesarios.
+- No sobrecargues el sistema con muchos hilos.
+- Usa colecciones e interfaces modernas de `java.util.concurrent`.
+- Realiza pruebas antes de hacer el PR.
+
+---
+
+## Entrega
+
+- Asegúrate de:
+    - Tener todos los archivos necesarios en tu fork.
+    - Subir una versión que compile sin errores.
+    - No dejar archivos temporales ni sin usar.
+
+---
+
+¡Buena suerte y feliz codificación!
